@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./static/webix.css"
+          type="text/css">
+    <script src="./static/jquery.js"></script>
+    <script src="./static/webix.js" type="text/javascript"></script>
+    <script src="./static/skin.js" type="text/javascript"></script>
+    <script src="./static/sidebar.js"></script>
+    <link rel="stylesheet" href="./static/sidebar.css">
+    <link rel="stylesheet" href="./static/styles.css">
+
+    <style>
+        .some_style {
+            background-color: darkslateblue;
+        }
+        .scroll_height {
+            height: 80% !important;
+        }
+        .some_img {
+            width: 50px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+<div id="scroll" ></div>
+<div id="toolbar" ></div>
+
+<script>
+	function scroll(id){
+		$$("verses").showView("verse_"+id);
+	}
+
+	webix.ui(
+		{
+			view:'layout',
+          css: 'some_style',
+			rows: [
+				{
+					view: 'label',
+					label: 'Заголовок',
+					height: 50,
+					align: 'center'
+				},
+				{
+					cols: [
+						{
+							width: 100
+                        },
+						{
+							view: 'sidebar',
+							id: 'sidebar',
+							data: [
+								{id: 'classic', value: 'Классицизм', data: []},
+								{id: 'realism', value: 'Реализм', data: []},
+								{id: 'romantism', value: 'Романтизм', data: []},
+                              {id: 'info', value: 'Об авторе', data: []},
+							],
+							on: {
+								onAfterSelect: function(id) {
+									if (id == 'classic') {
+										$$('realism_block').hide();
+										$$('romantism_block').hide();
+										$$('classic_block').show();
+										$$('info_block').hide();
+									}
+									else if (id == 'realism') {
+										$$('realism_block').show();
+										$$('romantism_block').hide();
+										$$('classic_block').hide();
+										$$('info_block').hide();
+									}
+									else if (id == 'romantism') {
+										$$('realism_block').hide();
+										$$('romantism_block').show();
+										$$('classic_block').hide();
+										$$('info_block').hide();
+									}
+									else if (id == 'info') {
+										$$('realism_block').hide();
+										$$('romantism_block').hide();
+										$$('classic_block').hide();
+										$$('info_block').show();
+									}
+								}
+							}
+						},
+						{
+							rows: [
+								{
+									view: 'layout',
+									id: 'classic_block',
+                                    css: 'scroll_height',
+									rows: [
+
+										{
+											view: "toolbar",
+											css: "my_toolbar",
+											id: "button_bar",
+											rows: [
+												{
+													view: "button",
+													value: 'Imitation of Spenser',
+													id: '1',
+													click: "scroll"
+												},
+												{
+													view: "button",
+													value: 'The Human Seasons',
+													id: '2',
+													click: "scroll"
+												},
+												{
+													view: "button",
+													value: 'Fame',
+													id: '3',
+													click: "scroll"
+												},
+												{
+													view: "button",
+													value: 'Ode on Melancholy',
+													id: '4',
+													click: "scroll"
+												}
+											]
+										},
+										{
+											view:"layout",
+											container:"scroll",
+											type:"line", rows:[
+											{
+												view:"scrollview", id:"verses",
+												scroll:"y",
+												body:{
+													rows:[
+														{ id:"verse_1",
+															template:"<h3>Imitation of Spenser</h3> <img class='some_img' src=\"https://mirnivoin.ru/wp-content/uploads/2018/12/Prosvetlenie-za-1-chas.jpg\"> Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.", autoheight:true},
+														{ id:"verse_2",
+															template:"<h3>The Human Seasons</h3> Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.", autoheight:true},
+														{ id:"verse_3",
+															template:"<h3>Fame</h3> Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.", autoheight:true},
+														{ id:"verse_4",
+															template:"<h3> Ode on Melancholy </h3> Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.", autoheight:true}
+													]
+												}
+											}
+										]
+										}
+									]
+								},
+								{
+									view: 'layout',
+									id: 'realism_block',
+									hidden: true,
+									rows: [],
+								},
+								{
+									view: 'layout',
+									id: 'romantism_block',
+									hidden: true,
+									rows: [],
+								},
+								{
+									view: 'layout',
+									id: 'info_block',
+									hidden: true,
+									rows: [
+                                      {
+                                      	view: 'template',
+                                        template:
+                                          '<a href="http://yandex.ru">Ссылка на Яндекс</a>'
+                                      }
+                                    ],
+								}
+							]
+						},
+						{
+							width: 100
+                        }
+
+					]
+				},
+
+				{
+					view: 'label',
+					label: 'Футер',
+					height: 50,
+					align: 'center'
+				}
+			]
+		}
+	)
+</script>
+</body>
+</html>
