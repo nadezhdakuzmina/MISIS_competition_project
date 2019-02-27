@@ -1,0 +1,738 @@
+<html lang='ru'>
+<head>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' href='./static/webix.css'
+          type='text/css'>
+    <script src='./static/webix.js' type='text/javascript'></script>
+    <script src='./static/skin.js' type='text/javascript'></script>
+
+    <style>
+        .webix_el_box{
+            font-size: 14px;
+        }
+        .content .webix_el_box{
+            font-size: 20px !important;
+        }
+        .context .webix_el_box{
+            background-color: #E6CEFE !important;
+        }
+    </style>
+</head>
+<body>
+<div id='scroll' ></div>
+<div id='toolbar' ></div>
+
+<script>
+    function scroll(id){
+        var content = this.$view.parentElement.parentElement
+        var view_id = content.getAttribute('view_id')
+        if (!view_id) {
+            view_id = content.parentElement.getAttribute('view_id')
+        }
+        var block = view_id.replace('content', 'verses')
+        $$(block).showView('verse_'+id);
+    }
+
+    webix.ui(
+        {
+            type:"space", padding:0, responsive:"a1",
+            css: 'some_style',
+            rows: [
+                {
+                    view: 'toolbar',
+                    height: 50,
+                    cols: [
+                        {view: 'label', label: 'Современное искусство', css: 'content'}
+                    ]
+                },
+                {
+                    cols: [
+                        {
+                            view: 'sidebar',
+                            id: 'sidebar',
+                            data: [
+                                {id: 'trends', value: 'Направления', data: [], selected: true},
+                                {id: 'techniques', value: 'Формы и техники', data: []},
+                                {id: 'artists', value: 'Знаменитые художники', data:  []},
+                                {id: 'museums', value:
+                                        'Музеи современного искусства', data: []},
+                                {id: 'about', value: 'О сайте', data: []}
+                            ],
+                            on: {
+                                onAfterSelect: function(id) {
+                                    if (id == 'trends') {
+                                        $$('techniques_block').hide();
+                                        $$('artists_block').hide();
+                                        $$('trends_block').show();
+                                        $$('about_block').hide();
+                                        $$('museums_block').hide();
+
+                                    }
+                                    else if (id == 'techniques') {
+                                        $$('techniques_block').show();
+                                        $$('artists_block').hide();
+                                        $$('trends_block').hide();
+                                        $$('about_block').hide();
+                                        $$('museums_block').hide();
+
+                                    }
+                                    else if (id == 'artists') {
+                                        $$('techniques_block').hide();
+                                        $$('artists_block').show();
+                                        $$('trends_block').hide();
+                                        $$('about_block').hide();
+                                        $$('museums_block').hide();
+
+                                    }
+                                    else if (id == 'about') {
+                                        $$('techniques_block').hide();
+                                        $$('artists_block').hide();
+                                        $$('trends_block').hide();
+                                        $$('about_block').show();
+                                        $$('museums_block').hide();
+
+                                    }
+
+                                    else if (id == 'museums') {
+                                        $$('techniques_block').hide();
+                                        $$('artists_block').hide();
+                                        $$('trends_block').hide();
+                                        $$('about_block').hide();
+                                        $$('museums_block').show();
+
+                                    }
+                                }
+                            },
+                            ready: function () {
+                                this.select('trends')
+                            }
+                        },
+                        {width: 5},
+                        {
+                            rows: [
+                                {
+                                    view: 'layout',
+                                    id: 'trends_block',
+                                    hidden: false,
+                                    rows: [
+                                        {
+                                            view: 'toolbar',
+                                            id: 'trends_header',
+                                            css: 'content',
+                                            height: 34,
+                                            rows: [
+                                                {view: 'label', label: 'Направления в искусстве'}
+                                            ]
+                                        },
+                                        {
+                                            type:"space", padding:0, responsive:"s1",
+                                            id: 'trends_content',
+                                            cols: [
+                                                {
+                                                    rows: [
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Концептуальное искусство',
+                                                            id: '1',
+                                                            click: 'scroll',
+                                                            css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Минимализм',
+                                                            id: '2',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Кинетическое искусство',
+                                                            id: '3',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Нет-арт',
+                                                            id: '4',
+                                                            click: 'scroll', css: 'context'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    rows: [
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Суперплоскость',
+                                                            id: '5',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Стрит-арт',
+                                                            id: '6',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Пост-интернет искусство',
+                                                            id: '7',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {view: 'label', label: '', css: 'context'}
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            view:'layout',
+                                            container:'scroll',
+                                            type:'line', rows: [
+                                                {
+                                                    view:'scrollview',
+                                                    id:'trends_verses',
+                                                    scroll:'y',
+                                                    body: {
+                                                        rows: [
+
+                                                            { id:'verse_1',
+                                                                template:'<h2 align=center>Концептуальное искусство</h2> <q>Концепция – вот внутреннее ядро любого искусства, даже самого маленького.</q> <p align=right> Иоганн Вольфганг Гёте </p> <p>Направление в искусстве, возникшее в середине 1960-х годов, согласно которому концепция произведения важнее его физического выражения, а цель искусства – в передаче идеи. Термин  концептуальное искусство  стал известен благодаря статье Сола Левитта 1967 года. Несмотря на размытые границы этого направления, оно почти одновременно возникло в разных частях света: Северной и Латинской Америке, Европе и Азии. Концептуализм оказал влияние на традиционные формы творчества, в результате чего появились первые книги художников, а фотографии, саундтреки, перфомансы и архитектурные чертежи стали считаться такими же произведениями искусства, как картины и скульптуры. Кроме того, с 1980-х годов концептуализм способствовал развитию искусства инсталляции.</p> ' +
+                                                                    '<img src=\'static/kon1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/kon.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_2',
+                                                                template:'<h2 align=center>Минимализм</h2> <p> Это направление авангардизма. Использует простые формы и исключает любые ассоциации, появилось в США в конце 60-х. Для минимал-арта характерны очищенные от всякого символизма и метафоричности геометрические формы, повторяемость, монохромность, нейтральные поверхности, промышленные материалы и способ изготовления. Минимализм стремится передать упрощённую суть и форму предметов, отсекая вторичные образы и оболочки. </p> ' +
+                                                                    '' +
+                                                                    '<img src=\'static/min.jpg\' >' +
+                                                                    '<img src=\'static/min1.jpg\'>' +
+                                                                    '<img src=\'static/min2.jpg\' >' +
+                                                                    '<img src=\'static/min3.jpg\'>', autoheight: true},
+                                                            { id:'verse_3',
+                                                                template:'<h2 align=center>Кинетическое искусство</h2> <p>Кинетическое искусство (от гр. kinetikos - приводящий в движение) - направление в современном искусстве, связанное с широким применением движущихся конструкций и других элементов динамики. Кинетизм как самостоятельное направление оформился во второй половине 1950-х годов.</p> ' +
+                                                                    '<img src=\'static/kin2.jpg\' width=\'480\' height=\'640\'>' +
+                                                                    '<img src=\'static/kin3.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_4',
+                                                                template:'<h2 align=center> Нет-арт </h2>' +
+                                                                    '<p>Искусство, рожденное на просторах сети Интернет и живущее по ее законам, называются «нет-арт» или «сетевое искусство» Если полноценное восприятие арт-объекта, произведения искусства возможно только посредством мировой паутины, значит, перед вами именно нет-арт. При этом стоит понимать, что сайт музея или того или иного художника, а также видеозапись с выставки, спектакля, перформанса – не есть изучаемый в данном материале объект. Почему? Потому что для описанных примеров сетевая площадка не является основным и обязательным условием существования – они продолжают свое существование за пределами Сети. Известные художники этого направления: Хит Бантин, Роллин Леонард, Лорна Миллс и Райдер Рипс. </p> ' +
+                                                                    '<img src=\'static/net-art.jpg\'>' +
+                                                                    '<img src=\'static/net.jpg\' width=\'640\' height=\'480\'> <p> <a href=\'http://www.digitalmediatree.com/sallymckay/LornaMillsImageDump/\'>Ссылка на сайт с работами Лорны Миллс</a> </p>' +
+                                                                    '<p> <a href=\'http://rollinleonard.com\'>Ссылка на сайт Роллин Леонард</a> </p>'
+                                                                , autoheight: true},
+                                                            { id:'verse_5',
+                                                                template:'<h2 align=center >Суперплоскость</h2> <p>Суперплоскость/Superflat — термин, придуманный современным японским художником Такаси Мураками (Takashi Murakami). Термин Superflat создан для того, чтобы объяснить новый визуальный язык, активно применяемый поколением молодых японских художников. Такаси Мураками: «Я думал о реалиях японского рисунка и живописи и о том, как они отличаются от западного искусства. Для Японии важно ощущение плоскости. Наша культура не обладает 3D-формами. 2D-формы, утвержденные в исторической японской живописи, сродни простому, плоскому визуальному языку современной анимации, комиксов и графического дизайна» </p> ' +
+                                                                    '<img src=\'static/super.jpg\' width=\'640\' height=\'640\'>' +
+                                                                    '<img src=\'static/super1.jpg\' width=\'640\' height=\'600\'>', autoheight: true},
+                                                            { id:'verse_6',
+                                                                template:'<h2 align=center>Стрит-арт</h2> <p>Стрит-арт — это обобщающее название всех направлений творческой деятельности, которая происходит в городской среде. Подразумевается, что это шрифтовая графика, скульптура, инсталляции, которые не имеют явных рекламных составляющих. Каких-то чётких правил здесь не существует.</p> ' +
+                                                                    '<img src=\'static/str.jpg\' width=\'640\' height=\'480\'> <h3>Философия стрит-арт</h3> <p>Уличные художники делают черно-белый мир цветным, безликие стены жилмассивов превращают в предметы искусства. Но главная ценность стрит-арта не в его эстетической стороне, а в том, что благодаря ему люди задумываются об актуальных проблемах современности, о вечных ценностях и своей роли в этом мире.</p> ' +
+                                                                    '<img src=\'static/graff.jpg\' width=\'640\' height=\'480\'> <dl> <dt>шуфити</dt><dd> - новая молодежная субкультура, направление стрит-арта, забрасывание на провода связанной шнурками обуви... Происходит от слов “shoe” + “graffiti”</dd>' +
+                                                                    '<img src=\'static/sh.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/shuf.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/shuf1.jpg\' width=\'600\' height=\'480\'> <dt>Граффити</dt> <dd>В историческом контексте граффити называют рисунки и надписи, каким-либо образом нанесенные на различные поверхности. Но в современном понимании граффити считают видом стрит-арта, которое заключается в нанесении рисунков и надписей с помощью краски, чаще аэрозольной, на всевозможные поверхности, преимущественно на стены. </dd>' +
+                                                                    '<img src=\'static/graf.jpg\' width=\'640\' height=\'480\'><dt> Ярнбомбинг (yarn bombing)</dt> <dd> – одно из самых молодых увлечений. Впервые вязаные украшения появились на улице в 2005 году. Основоположницей трикотажного граффити была американка Магда Сейг – владелица модного магазина. Даже не подозревая о неожиданном успехе, она украсила вход в свой бутик вязаными элементами декора, чтобы привлечь внимание модниц к своей лавке. Довольная успехом Магда решила двигаться дальше и поделилась идеями со своими подругами-рукодельницами. Организовав тематический клуб, рукодельницы, окрестившие себя «бомбардировщиками пряжей», быстро преобразили городские улицы и скверы. Теперь ярнбомбинг – новомодное хобби, родившееся из древнейшего рукоделия – вязания. Это искусство также называют уличным вязанием и вязаным граффити.</dd> </dl>' +
+                                                                    '<img src=\'static/yarn1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/yarn.jpg\' width=\'640\' height=\'640\'>', autoheight: true},
+                                                            { id:'verse_7',
+                                                                template:'<h2 align=center>Пост-интернет искусство</h2> <p>Пост-интернет искусство — это переход интернет-искусства из онлайн-формата в формат материальный. Это течение современного искусства, отображающего не только активность в киберпространстве, но происходящие в культурных и общественных отношениях изменения, обусловленные активным использованием Интернета современным обществом. Художники пост-интернета создают материальные объекты, используя Всемирную паутину. Они снимают фото и видео, создают иллюстрации и живопись, взяв за основу содержимое веб-контента. Таким образом, пост-интернет арт существует в материальном пространстве, а не только онлайн, и выявляет последствия столь широкого использования современным обществом Всемирной сети.</p>' +
+                                                                    '<img src=\'static/post.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/post1.jpg\' width=\'640\' height=\'480\'> ' +
+                                                                    '<img src=\'static/novitskova.jpg\' width=\'640\' height=\'480\'>', autoheight: true}
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    view: 'layout',
+                                    id: 'techniques_block',
+                                    hidden: true,
+                                    rows: [
+                                        {
+                                            view: 'toolbar',
+                                            id: 'techniques_header',
+                                            css: 'content',
+                                            height: 34,
+                                            rows: [
+                                                {view: 'label', label: 'Формы и техники'}
+                                            ]
+                                        },
+                                        {
+                                            type:"space", padding:0, responsive:"s2",
+                                            id: 'trends_content',
+                                            css: 'my_toolbar',
+                                            id: 'techniques_content',
+                                            cols: [
+                                                {
+                                                    rows: [
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Инсталляция',
+                                                            id: '0r',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Боди-арт',
+                                                            id: '1r',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Анаморфоз',
+                                                            id: '2r',
+                                                            click: 'scroll', css: 'context'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    rows: [
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Реверс трёхмерных изображений',
+                                                            id: '3r',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Тени в искусстве',
+                                                            id: '4r',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {view: 'label', label: '', css: 'context'}
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            view:'layout',
+                                            container:'scroll',
+                                            type:'line', rows: [
+                                                {
+                                                    view:'scrollview',
+                                                    id:'techniques_verses',
+                                                    scroll:'y',
+                                                    body: {
+                                                        rows: [
+                                                            { id:'verse_0r',
+                                                                template:'<h2 align=center>Инсталляция</h2> От англ. installation — установка. Пространственная композиция, созданная художником из различных элементов — бытовых предметов, промышленных изделий и материалов, природных объектов, текстовой или визуальной информации. Основоположниками инсталляции были дадаист М. Дюшан и сюрреалисты. Создавая необычные сочетания обычных вещей, художник придает им новый символический смысл. </p>' +
+                                                                    '<img src=\'static/inst.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/inst1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/inst2.jpg\' >', autoheight: true},
+                                                            { id:'verse_1r',
+                                                                template:'<h2  align=center>Боди-арт</h2> Боди-арт — одна из форм авангардного искусства, где главным объектом творчества становится тело человека, а содержание раскрывается с помощью невербального языка: поз, жестов, мимики, нанесения на тело знаков, «украшений». Боди -арт - востребованное в наше время, но при этом очень древнее искусство, тесно связанное с религией и историей многих стран. К боди-арту относятся не только рисунки на теле. </p>' +
+                                                                    '<img src=\'static/body2.jpg\' width=\'640\' height=\'480\'> <p align=center> Классификация боди-арта:</p>  <ul> <li> <p> бодипейнтинг </p> <img src=\'static/body1.jpg\' width=\'640\' height=\'480\'>\'</li> <li> <p> татуаж </p> \<img src=\'static/tatu.jpg\'></li> <li> <p> пирсинг </p>  \<img src=\'static/pirs.jpg\' width=\'340\' height=\'480\' > </li> <li> <p> скарификация (шрамирование) </p> <img src=\'static/skar1.jpg\' width=\'640\' height=\'480\'></li> </ul>', autoheight: true},
+                                                            { id:'verse_2r',
+                                                                template:'<h2  align=center>Анаморфоз</h2>  <p> Анаморфоз — это техника создания изображений, полностью увидеть и понять которые можно только взглянув на них под определённым углом, или с определённого места. В некоторых случаях правильное изображение можно увидеть только если смотреть на зеркальное отражение картины. </p> ' +
+                                                                    '<img src=\'static/ana.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/ana1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/ana2.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/ana3.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/3d.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_3r',
+                                                                template:'<h2  align=center>Реверс трёхмерных изображений</h2>  <p> В то время как анаморфоз старается сделать двумерные объекты похожими на трёхмерные, реверс трёхмерных изображений пытается сделать так, чтобы трёхмерный объект стал похож на двумерный рисунок. <p> ' +
+                                                                    '<img src=\'static/rev.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/rev1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/rev2.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/rev3.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_4r',
+                                                                template:'<h2  align=center > Тени в искусстве </h2>  <p> Тени по своей природе мимолётны, так что трудно сказать, когда люди впервые начали использовать их для создания произведений искусства. Но современные «теневые художники» достигли невиданных высот в использовании теней. Художники используют тщательное позиционирование различных объектов для того, чтобы создавать красивые теневые образы людей, предметов или слов. <p> ' +
+                                                                    '<img src=\'static/ten.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/ten1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/ten2.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/ten3.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    view: 'layout',
+                                    id: 'artists_block',
+                                    hidden: true,
+                                    rows: [
+                                        {
+                                            view: 'toolbar',
+                                            id: 'artists_header',
+                                            css: 'content',
+                                            height: 34,
+                                            rows: [
+                                                {view: 'label', label: 'Знаменитые художники'}
+                                            ]
+                                        },
+                                        {
+                                            type:"space", padding:0, responsive:"s3",
+                                            css: 'my_toolbar',
+                                            id: 'artists_content',
+                                            cols: [
+                                                {
+                                                    rows: [
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Джефф Кунс',
+                                                            id: '1b',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Дэмьен Стивен Херст',
+                                                            id: '2b',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Такаси Мураками',
+                                                            id: '3b',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Брайс Марден',
+                                                            id: '4b',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Дональд Джадд',
+                                                            id: '5b',
+                                                            click: 'scroll', css: 'context'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    rows: [
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Он Кавара',
+                                                            id: '6b',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Илья Кабаков',
+                                                            id: '7b',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Юрий Савельевич Злотников',
+                                                            id: '8b',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Эрик Булатов',
+                                                            id: '9b',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Эль Лисицкий',
+                                                            id: '10b',
+                                                            click: 'scroll', css: 'context'
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            view:'layout',
+                                            container:'scroll',
+                                            type:'line', rows: [
+                                                {
+                                                    view:'scrollview',
+                                                    id:'artists_verses',
+                                                    scroll:'y',
+                                                    body: {
+                                                        rows: [
+                                                            { id:'verse_1b',
+                                                                template:'<h2  align=center>Джефф Кунс</h2> <p> Джефф Кунс (Jeff Koons) современный американский художник. Известен своим пристрастием к китчу, особенно в скульптуре. Его работы входят в число самых дорогих произведений современных художников. В 1988 году Кунс сделал четыре скульптуры Майкла Джексона и его шимпанзе в натуральную величину окрашеные в золото. В 2001 году одна из них была продана за 5,6 миллона долларов. В 2007 году его работа Сердце была продана за $ 23,6 млн. на аукционе Сотбис и установила рекорд по самым дорогим произведением искусства, проданных на аукционе художника при жизни. </p> ' +
+                                                                    '<img src=\'static/koons.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/koons1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/koons2.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/koons3.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_2b',
+                                                                template:'<h2  align=center>Дэмьен Стивен Херст</h2> <p> Дэмьен Стивен Херст (Damien Hirst) английский художник, предприниматель, коллекционер произведений искусства, а также самая знаменитая фигура группы Young British Artists доминирующая на арт-сцене с 1990-х годов. </p>' +
+                                                                    '<img src=\'static/hirst.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/hirst1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/hirst2.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_3b',
+                                                                template:'<h2  align=center>Такаси Мураками</h2> <p>Такаси Мураками современный японский художник, живописец, скульптор и дизайнер. Живёт и работает в Токио и Нью-Йорке.<p>' +
+                                                                    '<img src=\'static/takasi.jpg\' width=\'480\' height=\'640\'>' +
+                                                                    '<img src=\'static/takasi1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/takasi2.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_4b',
+                                                                template:'<h2  align=center>Брайс Марден</h2> <p> Брайс Марден (Brice Marden) — Американский художник - минималист. Марден разработал формальные принципы, которые характеризовали его графику и живопись в последующие десятилетия: преобладание прямоугольных форматов, повторяющееся использование приглушенной индивидуальной палитры. Эти ранние монохромные работы покрыты толстым слоем энкаустики, открывая следы мастихина, сохраняя следы работы художника. Это отличает манеру Мардена от современников-минималистов, которые предпочитали индустриальное качество работ, к которым будто не прикасалась рука художника.<p>' +
+                                                                    '<img src=\'static/brice.jpg\'>' +
+                                                                    '<img src=\'static/br.jpg\' width=\'480\' height=\'640\'>' +
+                                                                    '<img src=\'static/br1.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_5b',
+                                                                template:'<h2 align=center>Дональд Джадд</h2> <p> Основоположник минимализма, самого чистого и аристократического направления, отказывающийся от традиционной красоты, фигуративности, от любого сентиментального содержания. Самая узнаваемая форма Джадда — стопки, которых он произвел огромное количество. Здесь произведение — это не сами полки, а ритмы между полками: расстояние между полками равно расстоянию от пола до потолка. Он создал их во всех возможных цветах и материалах. Константа здесь — пропорция. Даже количество полок может варьироваться в зависимости от выставочного зала.</p>' +
+                                                                    '<img src=\'static/jad.jpeg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/jad1.jpeg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_6b',
+                                                                template:'<h2  align=center>Он Кавара</h2> <p> Японский концептуальный художник, живший с 1965 года в Нью-Йорке. Участвовал во многих персональных и групповых выставках. С 1966 года Он Кавара работает над серией Today (первую картину серии он создал 4 января 1966 года). Она состоит непосредственно из самих дат, в которые живопись создается (белые цифры типографским шрифтом на монохромных холстах). Если Кавара не может завершить живопись в день, в который она была начата, он уничтожает её. </p>' +
+                                                                    '<img src=\'static/kavara.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/kavara1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/kavara2.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_7b',
+                                                                template:'<h2 align=center><a href=\'https://ilya-emilia-kabakov.com/installations/\'>Илья Кабаков</a></h2> <p> Илья Иосифович Кабаков родился 30 сентября 1933 года в Днепропетровске, СССР — российский и американский художник, график, автор публичных проектов и инсталляций, теоретик русской культуры, одна из наиболее значительных фигур московского концептуализма. В последнее время работает в соавторстве со своей женой Эмилией. </p>' +
+                                                                    '<img src=\'static/kab.jpg\' width=\'480\' height=\'640\' >' +
+                                                                    '<img src=\'static/kabakov.jpg\' width=\'640\' height=\'480\' >' +
+                                                                    '<img src=\'static/kabakov1.jpg\' width=\'640\' height=\'480\' >', autoheight: true},
+                                                            { id:'verse_8b',
+                                                                template:'<h2  align=center>Юрий Савельевич Злотников</h2> <p> Юрий Савельевич Злотников (23 апреля 1930 — 25 сентября 2016) — советский и российский художник-абстракционист. Юрий Злотников считается одним из первых абстракционистов периода «оттепели». С него начинается авангард в СССР. Его работы оказали огромное влияние на развитие российского современного искусства второй половины XX века и начала нынешнего столетия. В начале 60-х разрабатывает «сигнальную систему», в которой сочетал художественный подход и научные методы. Она легла в основу его собственного художественного языка и стиля. </p>' +
+                                                                    '<img src=\'static/zl.jpg\' width=\'640\' height=\'480\' >' +
+                                                                    '<img src=\'static/zl1.jpg\' width=\'640\' height=\'480\' >' +
+                                                                    '<img src=\'static/zl2.jpg\' width=\'640\' height=\'480\' >', autoheight: true},
+                                                            { id:'verse_9b',
+                                                                template:'<h2 align=center>Булатов Эрик Владимирович</h2> <p> Русский художник известен тем, что смог соединить в своём творчестве и живопись, и текст, позднее это начали называть соц-артом. В советский период был популярен в качестве иллюстратора в детских книгах. Какое-то время жил в Нью-Йорке, затем в Париже. Он был первым художником, устроившим выставку в Центре Помпиду. </p>' +
+                                                                    '<img src=\'static/bul.jpg\'  >' +
+                                                                    '<img src=\'static/bul1.jpg\'  >' +
+                                                                    '<img src=\'static/bul3.jpg\'  >', autoheight: true},
+                                                            { id:'verse_10b',
+                                                                template:'<h2 align=center>Лазарь Маркович Лисицкий</h2> <p> Лазарь Маркович Лисицкий (Эль Лисицкий) — известный советский художник, авангардист. Известен как один из главных художников, повлиявших на развитие русского авангарда, беспредметного искусства и супрематизма, в частности.</p>' +
+                                                                    '<img src=\'static/lis.jpg\' width=\'640\' height=\'480\' >', autoheight: true},
+
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    view: 'layout',
+                                    id: 'museums_block',
+                                    css: 'scroll_height',
+                                    hidden: true,
+                                    rows: [
+                                        {
+                                            view: 'toolbar',
+                                            id: 'museums_header',
+                                            css: 'content',
+                                            height: 34,
+                                            rows: [
+                                                {view: 'label', label: 'Музеи современного искусства'}
+                                            ]
+                                        },
+                                        {
+                                            type:"space", padding:0, responsive:"s4",
+                                            css: 'my_toolbar',
+                                            id: 'museums_content',
+                                            cols: [
+                                                {
+                                                    rows: [
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Нью-Йоркский музей современного искусства',
+                                                            id: '1g',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Современная галерея Тейт',
+                                                            id: '2g',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Государственный музей современного искусства (Париж)',
+                                                            id: '3g',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Музей Гуггенхейма в Бильбао',
+                                                            id: '4g',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Московский музей современного искусства',
+                                                            id: '5g',
+                                                            click: 'scroll', css: 'context'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    rows: [
+                                                        {
+                                                            view: 'label',
+                                                            label: 'МСИИД — художественный музей в Ростове-на-Дону',
+                                                            id: '6g',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Новый музей (Санкт-Петербург)',
+                                                            id: '7g',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Музей современного искусства (Пермь)',
+                                                            id: '8g',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Эрарта',
+                                                            id: '9g',
+                                                            click: 'scroll', css: 'context'
+                                                        },
+                                                        {
+                                                            view: 'label',
+                                                            label: 'Музей современного искусства «Гараж»',
+                                                            id: '10g',
+                                                            click: 'scroll', css: 'context'
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            view:'layout',
+                                            container:'scroll',
+                                            type:'line', rows: [
+                                                {
+                                                    view:'scrollview',
+                                                    id:'museums_verses',
+                                                    scroll:'y',
+                                                    body: {
+                                                        rows: [
+                                                            { id:'verse_1g',
+                                                                template:'<h2><a href=\'https://www.moma.org\' > Музей современного искусства на Манхеттене в Нью-Йорке </a> </h2> ' +
+                                                                    '<p>   Музей современного искусства на Манхеттене в Нью-Йорке  — один из первых и наиболее представительных музеев современного искусства в мире, послуживший эталоном для многих других собраний подобного рода.Третий по посещаемости музей в Соединённых Штатах, входит в первую двадцатку самых посещаемых художественных музеев мира. Одна из главных достопримечательностей Нью-Йорка. </p> ' +
+                                                                    '<img src=\'static/musem1.jpg\' width=\'990\' height=\'600\' >' +
+                                                                    '<img src=\'static/musem1(1).jpg\' width=\'990\' height=\'600\' >' +
+                                                                    '<img src=\'static/musem1(2).jpg\' width=\'990\' height=\'600\' >', autoheight: true},
+                                                            { id:'verse_2g',
+                                                                template: '<h2><a href=\'https://www.tate.org.uk\'>Современная галерея Тейт</a></h2> ' +
+                                                                    '<p>Современная галерея Тейт— лондонская галерея модернистского и современного искусства, входит в группу галерей Тейт, в которых выставляется национальная коллекция британского искусства с 1500 года по сегодняшний день. В галерее находится коллекция произведений мирового искусства, созданных с 1900 года. Входит в десятку самых посещаемых художественных музеев мира.</p> ' +
+                                                                    '<img src=\'static/musem2.jpg\' width=\'990\' height=\'600\'>' +
+                                                                    '<img src=\'static/musem2(1).jpg\' width=\'990\' height=\'600\'>', autoheight: true},
+                                                            { id:'verse_3g',
+                                                                template:'<h2><a href=\'https://www.centrepompidou.fr\'>Государственный музей современного искусства (Париж)</a></h2> <p>Французский Государственный музей современного искусства является частью культурного центра Жоржа Помпиду. Входит в десятку самых посещаемых художественных музеев мира. </p> ' +
+                                                                    '<img src=\'static/musem3.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/musem3(1).jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/musem3(2).jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_4g',
+                                                                template:'<h3><a href=\'https://www.guggenheim-bilbao.eus/en/\'>Музей Гуггенхейма в Бильбао</a></h3> <p> Музей Гуггенхе́йма в Бильба́о— музей современного искусства в Бильбао, Испания. Является одним из филиалов музея современного искусства Соломона Гуггенхейма. В музее расположены постоянные экспозиции, а также проводятся временные выставки как испанских, так и зарубежных художников. Здание музея спроектировано американско-канадским архитектором Фрэнком Гери и было открыто для публики в 1997 году. Здание сразу признано одним из наиболее зрелищных в мире строений в стиле деконструктивизма. Архитектор Филип Джонсон назвал его «величайшим зданием нашего времени» </p> ' +
+                                                                    '<img src=\'static/musem4.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/musem4(1).jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/musem4(2).jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_5g',
+                                                                template:'<h3><a href=\'http://www.mmoma.ru\'>Московский музей современного искусства (MMоMA)</a></h3> <p>Московский музей современного искусства (MMоMA ) — первый в России государственный музей современного искусства, в коллекциях которого представлены исключительно произведения визуальной культуры ХХ и XXI веков. Музей был основан в 1999 году при поддержке Правительства Москвы и Департамента культуры столицы. Основателем и директором ММоМА является Зураб Церетели. Постоянная коллекция насчитывает более 12 тыс. арт-объектов: картин, фотографий, скульптур, инсталляций. Музей также занимается организацией временных выставок, осуществляет научную, реставрационную и издательскую деятельность. Музей располагает пятью площадками в центре Москвы     </p> ' +
+                                                                    '<img src=\'static/mmoma.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/mmoma1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/mmoma2.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_6g',
+                                                                template:'<h3><a href=\'http://msiid.ru\'>МСИИД — художественный музей в Ростове-на-Дону</a></h3> <p>Музей современного изобразительного искусства на Дмитровской / МСИИД — художественный музей в Ростове-на-Дону. Выставочные залы музея — единственные в городе, где для художников есть возможность выставляться без арендной платы за помещение. Музей проводит собирательскую, экспозиционно-выставочную, научно-исследовательскую и просветительскую работу.    </p> ' +
+                                                                    '<img src=\'static/msiid.jpg\' width=\'480\' height=\'640\'>' +
+                                                                    '<img src=\'static/msiid1.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_7g',
+                                                                template:'<h3><a href=\'http://www.novymuseum.ru/common/common.html\'>Музей современного искусства на 6-й линии Васильевского острова в Санкт-Петербурге</a></h3> <p>Музей современного искусства на 6-й линии Васильевского острова в Санкт-Петербурге, собрание живописи которого охватывает период с 50-х гг. XX в. до наших дней. Открылся 4 июня 2010 года. В основу экспозиции положена частная коллекция произведений неофициального искусства советского периода и русского современного, собранная меценатом Асланом Чехоевым. Чехоев формировал свою коллекцию последние десять лет, отбирая лучшие работы в мастерских художников, галереях, приобретая на крупнейших лондонских аукционах  <p/>' +
+                                                                    '<img src=\'static/nspb.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/nspb1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/nspb2.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_8g',
+                                                                template:'<h3><a href=\'https://permm.ru/#\'>Музей современного искусства (Пермь)/PERMM</a></h3> <p>PERMM — государственный музей современного искусства, созданный в Перми в 2009 году.<p/>' +
+                                                                    '<img src=\'static/perm.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/perm1.jpg\' >' +
+                                                                    '<img src=\'static/perm2.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/perm3.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_9g',
+                                                                template:'<h3><a href=\'https://www.erarta.com\'>Эрарта</a></h3> <p>Эрарта — частный и первый музей современного искусства в Санкт-Петербурге на Васильевском острове. Название расшифровывается как «эра арта» — «эра искусства».<p/>' +
+                                                                    '<img src=\'static/ar.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/ar1.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/ar2.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/ar3.jpg\' width=\'640\' height=\'480\'>', autoheight: true},
+                                                            { id:'verse_10g',
+                                                                template:'<h3><a href=\'https://garagemca.org/ru/visit\'>Музей современного искусства «Гараж»</a></h3> <p>Музей современного искусства «Гараж»  — ведущий музей современного искусства в России и первая в стране филантропическая организация, направленная на развитие современного искусства и культуры. Музей основан в 2008 году Дарьей Жуковой и Романом Абрамовичем и располагается в Парке Горького.<p/>' +
+                                                                    '<img src=\'static/gar.jpg\' width=\'640\' height=\'480\'>' +
+                                                                    '<img src=\'static/gar1.jpg\' width=\'640\' height=\'480\'>', autoheight: true}
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    view: 'layout',
+                                    id: 'about_block',
+                                    hidden: true,
+                                    rows: [
+                                        {
+                                            view: 'toolbar',
+                                            id: 'about_header',
+                                            css: 'content',
+                                            height: 34,
+                                            rows: [
+                                                {view: 'label', label: 'Об авторе'}
+                                            ]
+                                        },
+                                        {
+                                            view:'layout',
+                                            container:'scroll',
+                                            type:'line', rows: [
+                                                {
+                                                    view:'scrollview',
+                                                    id:'about_verses',
+                                                    scroll:'y',
+                                                    body: {
+                                                        rows: [
+                                                            { id:'verse_1i',
+                                                                template:'<p>Здравствуйте. Я - Кузьмина Надежда, рада приветствовать Вас на этом сайте. Я очень люблю искусство, когда училась в художественной школе, то изучала его историю. Но окончив художественную школу, меня заинтересовало современное искусство. С целью узнать о нём больше, я изучала множество сайтов, читала статьи, дипломы, рефераты и смотрела записи лекций искусствоведов. Теперь хочу поделиться с вами своими знаниями в области современного искусства. </p> ', autoheight: true},
+                                                            { id:'verse_2i',
+                                                                template:'<q>Архитектура, скульптура, живопись, музыка и поэзия справедливо могут быть названы цветом цивилизованной жизни.</q> <p align=right> Спенсер Герберт<p> <p>И ведь действительно, сложно представить нашу жизнь без искусства, она была бы скучной и неинтересной. А Фридрих Ницше вообще писал: "Искусство нам дано для того, чтобы не умереть от истины."  Исходя из этого, я думаю, что в искусстве стоит разбираться, хотя бы чуть-чуть, хотя бы в современном, ведь оно самое актуальное, именно оно окружает нас в повседневной жизни. Поэтому на данном сайте будет представлено современное изобразительное искусство. Но рассказать обо всём невозможно, поэтому я расскажу о самом интересном, на мой взгляд.</p> ' +
+                                                                    ' <p>Историки искусства применяют разнообразные системы классификации мирового искусства. Они структурируют беспрерывный поток произведений искусства, разделяя его на группы. Такое разделение подразумевает, что произведения, объединенные в одну группу, имеют общее значимое качество или набор качеств, которые отображают специфический подход художника. Эти качества могут включать формальные, стилистические, иконографические, тематические и другие аспекты искусства. Принцип группирования отображает понимание природы значимых связей между произведениями, а так же между искусством и более широким контекстом. Западное искусство чаще всего структурируют в виде художественных направлений, используя преимущественно культурно-эстетические критерии. Исходя из этого я решила собрать самые интересные и актуальные, на мой взгляд, направления. Также на этом сайте вы можете познакомиться с оригинальными формами искусства, знаменитыми художниками наших дней и самыми популярными музеями современного искусства в России и в мире. </p> ', autoheight: true},
+                                                            { id:'verse_3i',
+                                                                template:' <p> Здесь представлены сайты, использованные при создании ресурса. </p> ' +
+                                                                    '<ol type=\'1\'>' +
+                                                                    '<li><a href="https://artsandculture.google.com">artsandculture.google.com</a></li>' +
+                                                                    '<li><a href="https://ru.m.wikipedia.org/wiki/">wikipedia.org</a></li>' +
+                                                                    '<li><a href="http://virtoo.ru/almanach/civilization/osnovnye-napravleniya-i-priemy-sovrem.html">virtoo.ru</a></li>' +
+                                                                    '<li><a href="http://alenakraeva.com/new-digital-world/napravleniya-sovremennogo-iskusstva-muzei-mira/">alenakraeva.com</a></li>' +
+                                                                    '<li><a href="https://allrefrs.ru/3-35809.html">allrefrs.ru</a></li>' +
+                                                                    '<li><a href="http://art-assorty.ru/5639-el-lisickiy-kartiny.html">art-assorty.ru</a></li>' +
+                                                                    '<li><a href="https://medium.com/russian/дональд-джадд-минимализм-искусство-базиса-3f283920f38c">medium.com</a></li>' +
+                                                                    '<li><a href="http://diplomba.ru/work/90057">diplomba.ru</a></li>' +
+                                                                    '<li><a href="https://www.factroom.ru/facts/61782">factroom.ru</a></li>' +
+                                                                    '<li><a href="https://zhenskie-uvlecheniya.ru/yarnbombing-vyazanoe-graffiti-dlya-ukrasheniya-ulic-i-sadov.html">zhenskie-uvlecheniya.ru</a></li>' +
+                                                                    '<li><a href="https://allpainters.ru/vdohnovenie/modern-art/ilya-kabakov-otets-osnovatel-moskovskogo-kontseptualizma.html">allpainters.ru</a></li>' +
+                                                                    '<li><a href="https://www.wikiart.org">wikiart.org</a></li>' +
+                                                                    '<li><a href="http://fb.ru/category/12/art">fb.ru</a></li>' +
+                                                                    '<li><a href="http://megapoisk.com/chto-takoe-graffiti-ulichnoe-iskusstvo">megapoisk.com</a></li>' +
+                                                                    '<li><a href="https://crossarea.ru/street-art/vidy-i-stili-strit-arta/">crossarea.ru</a></li>' +
+                                                                    '<li><a href="http://barbarum.ru/articles_new/sufity/">barbarum.ru</a></li>' +
+                                                                    '<li><a href="https://www.youtube.com/watch?v=SFIEA_sAPhc">youtube.com</a></li>' +
+                                                                    '<li><a href="https://yandex.ru/images/?clid=2139302-002&win=161">yandex.ru/images</a></li>' +
+                                                                    '<li><a href="http://artoblaka.ru/blog/net-art-ili-iskusstvo-zhivuschee-v-seti/">artoblaka.ru</a></li>' +
+                                                                    '</ol>', autoheight: true},
+                                                            { id:'verse_4i',
+                                                                template:' <p> Послесловие </p> <p> Когда Вы посмотрите информацию на данном сайте, у Вас может сложиться впечатление, что современное искусство во многом уступает классическому, созданному великими и непревзойдёнными Леонардо Да Винчи, Рафаэлем Санти и др. Тем не менее я могу сказать, что и в наши дни существует много талантливых художников, кто может копировать так  искусно, что не каждый искусствовед отличит их работы от оригинала. В живописи художники уже достигли огромных высот, благодаря им было разработано много разных техник и стилей. С каждым днём всё сложнее придумать что-то новое. Именно по этой причине знаменитыми становятся лишь те, кто смог внести что-то новое, удивить публику. А новое не всегда восхищает, порой оно кажется странным. Хочу оставить ссылки на страницы во ВКонтакте, где представлены и другие направления и техники современного искусства, которые не были рассмотрены на этом сайте. Некоторые из этих направлений являются классическими и выполнены привычными для всех материалами, а некоторые раскроют ещё больше оригинальность современного искусства. </p> <p> <a href="https://vk.com/al_bertina">Albertina  </a> Это сообщество публикует картины разных времён, классических направлений и техник, что позволяет узнать художников и других эпох. </p> <p> <a href="https://vk.com/academicart">Academic Art  </a> Данное сообщество тоже объединяет художников разных веков. Но оно включает ещё и работы фотографов. Название нам говорит, что сообщество специализируется на академизме и реализме.</p>  <p>   <a href="https://vk.com/twitart">АРТ искусство  </a> А это одна из самых интересных страниц про искусство, на мой взгляд. Контент этого сообщества состоит из работ современных деятелей. Если сравнивать, с остальными сообществами, то в этом можно увидеть больше различных техник, стилей, форм и направлений. </p>  <p>   <a href="https://vk.com/another_art">Современное искусство</a> А на последок самое сладкое. Моё любимое сообщество об  искусстве. Многие публикации действительно восхищают. Я думаю, что авторам этого паблика удалось собрать самые интересные работы невероятно талантливых и уникальных художников современного искусства.</p> ' , autoheight: true},
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    view: 'label',
+                    label: 'Ангарск 2019 г.',
+                    height: 30,
+                    align: 'center'
+                }
+            ]
+        }
+    )
+</script>
+</body>
+</html>
